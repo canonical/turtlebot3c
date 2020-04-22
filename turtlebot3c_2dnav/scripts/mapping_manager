@@ -1,0 +1,119 @@
+#! /usr/bin/env python
+#
+# Copyright 2020 Canonical Ltd.
+#
+# This program is free software: you can redistribute it and/or modify it under the terms of the
+# GNU Limited General Public License version 3, as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranties of MERCHANTABILITY, SATISFACTORY QUALITY, or
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Limited General Public License for more details.
+#
+# You should have received a copy of the GNU Limited General Public License along with
+# this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+import datetime
+import os
+import subprocess
+from signal import signal, SIGINT
+from sys import exit
+import time
+
+import roslaunch
+import rospkg
+import rospy
+
+
+class Error(Exception):
+    """Base class for all MappingManager exceptions."""
+
+
+class FileSystemError(Error):
+    """Exception class representing most file system errors."""
+
+
+def is_dir(path):
+    if os.path.exists(path):
+        if not os.path.isdir(path):
+            raise FileSystemError('File' + path + 'exists but is not a directory.')
+        else:
+            return True
+
+
+class MappingManager:
+
+
+    def __init__(self):
+
+        self.BASE_DIR = os.getenv('SNAP_USER_DATA') or os.path.expanduser('~')
+        self.TB3C_BASE_DIR = os.path.join(self.BASE_DIR, '.tb3c', 'maps')
+        self.TB3C_MAP_DIR = os.path.join(self.TB3C_BASE_DIR, 'config')
+        self.TB3C_DEFAULT_MAP_PATH = os.path.join(self.TB3C_MAP_DIR, 'map.yaml')
+
+        # Make sure the base directory exists
+        try:
+            is_dir(self.TB3C_BASE_DIR)
+        except FileSystemError:
+            os.makedirs(self.TB3C_BASE_DIR)
+
+        package = 'turtlebot3c_2dnav'
+        launch_file = 'turtlebot3c_mapping.launch'
+        uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+        roslaunch.configure_logging(uuid)
+        launch_file = os.path.join(rospkg.RosPack().get_path(package), 'launch', launch_file)
+        self.launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_file])
+        self.launch.start()
+
+        signal(SIGINT, self._handler)
+
+
+    def _handler(self, signal_received, frame):
+        try:
+            [path, filename] = self.save_map()
+            if not os.path.isfile(os.path.join(path, filename)):
+                raise FileSystemError('Could not save the map.')
+
+            self.link_map(path)
+        except FileSystemError as e:
+            self.launch.shutdown()
+            raise e
+
+        self.launch.shutdown()
+
+        exit(0)
+
+
+    def save_map(self):
+        stamp = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+        new_map_dir = os.path.join(self.TB3C_BASE_DIR, stamp)
+        os.makedirs(new_map_dir)
+
+        assert(is_dir(new_map_dir))
+
+        new_map_full = os.path.join(new_map_dir, 'map')
+        subprocess.call(['rosrun', 'map_server', 'map_saver', '-f', new_map_full])
+
+        return [new_map_dir, 'map.yaml']
+
+
+    def link_map(self, path):
+        if os.path.exists(self.TB3C_MAP_DIR):
+            if os.path.isdir(self.TB3C_MAP_DIR):
+                if os.path.islink(self.TB3C_MAP_DIR):
+                    os.unlink(self.TB3C_MAP_DIR)
+                else:
+                    raise FileSystemError('File ' + self.TB3C_MAP_DIR + ' exists but is not a link.')
+            else:
+                raise FileSystemError('File ' + self.TB3C_MAP_DIR + ' exists but is not a directory.')
+
+        os.symlink(path, self.TB3C_MAP_DIR)
+
+
+if __name__ == "__main__":
+
+    m = MappingManager()
+
+    while True:
+        time.sleep(0.5)
+        pass

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>turtlebot3c_2dnav</name>
+  <version>0.0.0</version>
+  <description>
+    Roslaunch scripts for the 2D navigation of TurtleBot3.
+  </description>
+  <license>APACHE 2.0</license>
+  <author>Jeremie Deray</author>
+  <author email="jeremie.deray@canonical.com">Jeremie Deray</author>
+  <maintainer email="jeremie.deray@canonical.com">Jeremie Deray</maintainer>
+  <url type="repository">https://github.com/ubuntu-robotics/turtlebot3c</url>
+  <url type="bugtracker">https://github.com/ubuntu-robotics/turtlebot3c/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>turtlebot3_slam</exec_depend>
+  <exec_depend>turtlebot3_navigation</exec_depend>
+  <exec_depend>map_server</exec_depend>
+
+  <exec_depend>slam_gmapping</exec_depend>
+  <exec_depend>slam_karto</exec_depend>
+
+  <exec_depend>dwa_local_planner</exec_depend>
+</package>
