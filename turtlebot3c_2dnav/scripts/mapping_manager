@@ -107,7 +107,7 @@ class MappingManager:
                     raise FileSystemError('Could not unlink ' + self.TB3C_MAP_DIR + ' : ' + str(e))
             else:
                 raise FileSystemError('Link ' + self.TB3C_MAP_DIR + ' exists but is not a directory.')
-        else if os.path.exists(self.TB3C_MAP_DIR):
+        elif os.path.exists(self.TB3C_MAP_DIR):
             raise FileSystemError('File ' + self.TB3C_MAP_DIR + ' exists but is not a link.')
 
         try:
