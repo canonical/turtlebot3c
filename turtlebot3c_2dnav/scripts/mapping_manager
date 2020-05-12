@@ -98,16 +98,23 @@ class MappingManager:
 
 
     def link_map(self, path):
-        if os.path.exists(self.TB3C_MAP_DIR):
-            if os.path.isdir(self.TB3C_MAP_DIR):
-                if os.path.islink(self.TB3C_MAP_DIR):
-                    os.unlink(self.TB3C_MAP_DIR)
-                else:
-                    raise FileSystemError('File ' + self.TB3C_MAP_DIR + ' exists but is not a link.')
-            else:
-                raise FileSystemError('File ' + self.TB3C_MAP_DIR + ' exists but is not a directory.')
 
-        os.symlink(path, self.TB3C_MAP_DIR)
+        if os.path.islink(self.TB3C_MAP_DIR):
+            if os.path.isdir(self.TB3C_MAP_DIR) or not os.path.exists(self.TB3C_MAP_DIR):
+                try:
+                    os.unlink(self.TB3C_MAP_DIR)
+                except OSError as e:
+                    raise FileSystemError('Could not unlink ' + self.TB3C_MAP_DIR + ' : ' + str(e))
+            else:
+                raise FileSystemError('Link ' + self.TB3C_MAP_DIR + ' exists but is not a directory.')
+        else if os.path.exists(self.TB3C_MAP_DIR):
+            raise FileSystemError('File ' + self.TB3C_MAP_DIR + ' exists but is not a link.')
+
+        try:
+            os.symlink(path, self.TB3C_MAP_DIR)
+        except OSError as e:
+            raise FileSystemError('Could not create symlink ' + self.TB3C_MAP_DIR + ' to ' + path + ' : ' + str(e))
+
 
 
 if __name__ == "__main__":
