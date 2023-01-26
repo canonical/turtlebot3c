@@ -15,7 +15,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <launch>
-  <include file="$(find turtlebot3c_teleop)/launch/turtlebot3c_key_teleop.launch"/>
-
   <node pkg="topic_tools" name="mux" type="mux" args="cmd_vel nav_vel key_vel joy_vel" output="screen"/>
 </launch>
