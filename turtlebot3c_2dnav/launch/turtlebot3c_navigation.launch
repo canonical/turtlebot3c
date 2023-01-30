@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <launch>
   <!-- Arguments -->
-  <arg name="map_file" default="$(env SNAP_USER_DATA)/.tb3c/maps/config/map.yaml"/>
+  <arg name="map_file" default="$(env SNAP_USER_COMMON)/current_map.yaml"/>
 
   <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
   <arg name="cmd_vel_topic" default="nav_vel" />
