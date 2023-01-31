@@ -12,6 +12,7 @@ catkin_package()
 # Install
 ################################################################################
 
-
-install(DIRECTORY launch
+foreach(dir config launch)
+  install(DIRECTORY ${dir}
           DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+endforeach(dir)
