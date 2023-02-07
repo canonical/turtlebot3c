@@ -5,8 +5,6 @@
 
 A collection of configuration/launch files and nodes used by the Robotics team at Canonical on the [Turtlebot3](https://www.turtlebot.com/).
 
-This branch is meant to be used with the turtlebot simulation
-
 To launch the simulation:
 
 ```
