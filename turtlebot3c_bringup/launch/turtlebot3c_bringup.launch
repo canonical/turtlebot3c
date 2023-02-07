@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   <arg name="set_lidar_frame_id" default="base_scan"/>
   <arg name="simulation" default="false"/>
 
-
   <!-- only launch the robot code if not in a simulation -->
   <group unless="$(arg simulation)">
     <include file="$(find turtlebot3_bringup)/launch/turtlebot3_robot.launch">
@@ -34,3 +33,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <arg name="multi_robot_name" value="$(arg multi_robot_name)"/>
   </include>
 </launch>
+
