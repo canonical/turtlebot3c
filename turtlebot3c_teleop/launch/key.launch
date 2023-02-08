@@ -15,13 +15,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <launch>
-  <arg name="teleop_config" default="$(find turtlebot3c_teleop)/config/joy_teleop/joy_teleop.yaml" />
-
-  <node pkg="joy" type="joy_node" name="joystick">
-    <param name="autorepeat_rate" value="10" />
+  <node pkg="turtlebot3_teleop" type="turtlebot3_teleop_key" name="turtlebot3_teleop_keyboard"  output="screen">
+    <remap from="/cmd_vel" to="/key_vel"/>
   </node>
-
-  <rosparam file="$(arg teleop_config)" command="load" />
-  <node pkg="joy_teleop" type="joy_teleop.py" name="joy_teleop"/>
 </launch>
 

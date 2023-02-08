@@ -5,19 +5,15 @@
   <description>
     ROS packages for the Turtlebot3 Canonical(meta package)
   </description>
-  <license>Apache 2.0</license>
-  <license>BSD</license>
+  <license>GPL-3.0</license>
   <author>Jeremie Deray</author>
   <author email="jeremie.deray@canonical.com">Jeremie Deray</author>
   <maintainer email="jeremie.deray@canonical.com">Jeremie Deray</maintainer>
   <url type="repository">https://github.com/ubuntu-robotics/turtlebot3c</url>
   <url type="bugtracker">https://github.com/ubuntu-robotics/turtlebot3c/issues</url>
   <buildtool_depend>catkin</buildtool_depend>
-  <!-- <exec_depend>turtlebot3_bringup</exec_depend>
-  <exec_depend>turtlebot3_description</exec_depend>
-  <exec_depend>turtlebot3_example</exec_depend>
-  <exec_depend>turtlebot3_navigation</exec_depend>
-  <exec_depend>turtlebot3_slam</exec_depend> -->
+  <exec_depend>turtlebot3c_2dnav</exec_depend>
+  <exec_depend>turtlebot3c_bringup</exec_depend>
   <exec_depend>turtlebot3c_teleop</exec_depend>
   <export><metapackage/></export>
 </package>

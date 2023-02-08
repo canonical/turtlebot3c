@@ -5,4 +5,10 @@
 
 A collection of configuration/launch files and nodes used by the Robotics team at Canonical on the [Turtlebot3](https://www.turtlebot.com/).
 
+To launch the simulation:
+
+```
+TURTLEBOT3_MODEL=waffle_pi roslaunch turtlebot3_gazebo turtlebot3_world.launch
+```
+
 See the associated [`turtlebot3c` snap](https://snapcraft.io/turtlebot3c).

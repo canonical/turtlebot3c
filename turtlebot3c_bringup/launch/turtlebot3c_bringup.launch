@@ -1,30 +1,36 @@
 <!--
- Copyright 2019 Canonical, Ltd.
+Copyright 2023 Canonical Ltd.
 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 3 as
+published by the Free Software Foundation.
 
-     http://www.apache.org/licenses/LICENSE-2.0
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <launch>
   <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
   <arg name="multi_robot_name" default=""/>
   <arg name="set_lidar_frame_id" default="base_scan"/>
+  <arg name="simulation" default="false"/>
 
-  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_robot.launch">
-    <arg name="multi_robot_name" value="$(arg multi_robot_name)"/>
-    <arg name="set_lidar_frame_id" value="$(arg set_lidar_frame_id)"/>
-  </include>
+  <!-- only launch the robot code if not in a simulation -->
+  <group unless="$(arg simulation)">
+    <include file="$(find turtlebot3_bringup)/launch/turtlebot3_robot.launch">
+      <arg name="multi_robot_name" value="$(arg multi_robot_name)"/>
+      <arg name="set_lidar_frame_id" value="$(arg set_lidar_frame_id)"/>
+    </include>
+  </group>
+
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
     <arg name="model" value="$(arg model)"/>
     <arg name="multi_robot_name" value="$(arg multi_robot_name)"/>
   </include>
 </launch>
+

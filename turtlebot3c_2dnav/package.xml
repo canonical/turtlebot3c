@@ -5,7 +5,7 @@
   <description>
     Roslaunch scripts for the 2D navigation of TurtleBot3.
   </description>
-  <license>APACHE 2.0</license>
+  <license>GPL-3.0</license>
   <author>Jeremie Deray</author>
   <author email="jeremie.deray@canonical.com">Jeremie Deray</author>
   <maintainer email="jeremie.deray@canonical.com">Jeremie Deray</maintainer>
