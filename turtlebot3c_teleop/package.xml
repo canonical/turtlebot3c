@@ -16,4 +16,5 @@
   <exec_depend>joy</exec_depend>
   <exec_depend>joy_teleop</exec_depend>
   <exec_depend>topic_tools</exec_depend>
+  <exec_depend>turtlebot3_teleop</exec_depend>
 </package>
